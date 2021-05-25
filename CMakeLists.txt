@@ -30,6 +30,19 @@ set(LUA_TEST_ROOT ${LUA_SOURCE_ROOT}/test)
 add_subdirectory(${LUA_SOURCE_ROOT})
 
 #================================
+# Packages.
+#================================
+set(LUA_LIBS)
+if (UNIX AND NOT APPLE)
+    include(CheckLibraryExists)
+    check_library_exists(m sin "" HAVE_LIB_M)
+    if (HAVE_LIB_M)
+        list(APPEND LUA_LIBS m)
+    endif()
+
+endif()
+
+#================================
 # Lua library.
 #================================
 source_group("include" FILES ${LUA_LIBRARY_INCLUDE})
@@ -39,6 +52,9 @@ target_include_directories(lua_lib PUBLIC
     $<BUILD_INTERFACE:${LUA_SOURCE_ROOT}>
     $<INSTALL_INTERFACE:include>
     )
+if (UNIX AND NOT APPLE)
+    target_link_libraries(lua_lib PUBLIC ${LUA_LIBS})
+endif()
 target_compile_features(lua_lib PRIVATE cxx_std_17)
 set_target_properties(lua_lib PROPERTIES DEBUG_POSTFIX "d")
 add_library(lua::lua ALIAS lua_lib)
