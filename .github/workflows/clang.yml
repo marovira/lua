@@ -57,15 +57,14 @@ jobs:
         rum: |
           make install
 
-      - name: Test
+      - name: Setup
         shell: bash
         working-directory: ./test
         env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
           mkdir build && cd build
-          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF -DLUA_INSTALL_TARGET=ON
           make
-
-
