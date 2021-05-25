@@ -37,6 +37,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_DIR}")
 find_package(lua QUIET)
 
 if (NOT LUA_FOUND AND NOT lua_POPULATED)
+    message(STATUS "Failed to find Lua")
     FetchContent_MakeAvailable(lua)
 endif()
 
