@@ -57,6 +57,12 @@ jobs:
         run: |
           sudo make install
 
+      - name: Clean
+        shell: bash
+        run: |
+          rm -rf ./build
+          rmdir ./build
+
       - name: Test
         shell: bash
         working-directory: ./test

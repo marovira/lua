@@ -56,6 +56,11 @@ jobs:
         run: |
           cmake --build . --target INSTALL --config $env:BUILD_TYPE
 
+      - name: Clean
+        shell: powershell
+        run: |
+          Remove-Item -Recurse -Force ./build
+
       - name: Test
         shell: powershell
         working-directory: ./test
