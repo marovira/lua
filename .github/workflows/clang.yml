@@ -55,7 +55,7 @@ jobs:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
-          make install
+          sudo make install
 
       - name: Test
         shell: bash
