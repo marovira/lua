@@ -1,0 +1,81 @@
+set(LUA_LIBRARY_SOURCE
+    ${LUA_SOURCE_ROOT}/lapi.c
+    ${LUA_SOURCE_ROOT}/lcode.c
+    ${LUA_SOURCE_ROOT}/lctype.c
+    ${LUA_SOURCE_ROOT}/ldebug.c
+    ${LUA_SOURCE_ROOT}/ldo.c
+    ${LUA_SOURCE_ROOT}/ldump.c
+    ${LUA_SOURCE_ROOT}/lfunc.c
+    ${LUA_SOURCE_ROOT}/lgc.c
+    ${LUA_SOURCE_ROOT}/llex.c
+    ${LUA_SOURCE_ROOT}/lmem.c
+    ${LUA_SOURCE_ROOT}/lobject.c
+    ${LUA_SOURCE_ROOT}/lopcodes.c
+    ${LUA_SOURCE_ROOT}/lparser.c
+    ${LUA_SOURCE_ROOT}/lstate.c
+    ${LUA_SOURCE_ROOT}/lstring.c
+    ${LUA_SOURCE_ROOT}/ltable.c
+    ${LUA_SOURCE_ROOT}/ltm.c
+    ${LUA_SOURCE_ROOT}/lundump.c
+    ${LUA_SOURCE_ROOT}/lvm.c
+    ${LUA_SOURCE_ROOT}/lzio.c
+    ${LUA_SOURCE_ROOT}/lauxlib.c
+    ${LUA_SOURCE_ROOT}/lbaselib.c
+    ${LUA_SOURCE_ROOT}/lcorolib.c
+    ${LUA_SOURCE_ROOT}/ldblib.c
+    ${LUA_SOURCE_ROOT}/liolib.c
+    ${LUA_SOURCE_ROOT}/lmathlib.c
+    ${LUA_SOURCE_ROOT}/loadlib.c
+    ${LUA_SOURCE_ROOT}/loslib.c
+    ${LUA_SOURCE_ROOT}/lstrlib.c
+    ${LUA_SOURCE_ROOT}/ltablib.c
+    ${LUA_SOURCE_ROOT}/lutf8lib.c
+    ${LUA_SOURCE_ROOT}/linit.c
+    PARENT_SCOPE)
+
+set(LUA_LIBRARY_INCLUDE
+    ${LUA_SOURCE_ROOT}/lapi.h
+    ${LUA_SOURCE_ROOT}/lauxlib.h
+    ${LUA_SOURCE_ROOT}/lcode.h 
+    ${LUA_SOURCE_ROOT}/lctype.h
+    ${LUA_SOURCE_ROOT}/ldebug.h
+    ${LUA_SOURCE_ROOT}/ldo.h   
+    ${LUA_SOURCE_ROOT}/lfunc.h
+    ${LUA_SOURCE_ROOT}/lgc.h
+    ${LUA_SOURCE_ROOT}/ljumptab.h
+    ${LUA_SOURCE_ROOT}/llex.h 
+    ${LUA_SOURCE_ROOT}/llimits.h
+    ${LUA_SOURCE_ROOT}/lmem.h  
+    ${LUA_SOURCE_ROOT}/lobject.h
+    ${LUA_SOURCE_ROOT}/lopcodes.h
+    ${LUA_SOURCE_ROOT}/lopnames.h
+    ${LUA_SOURCE_ROOT}/lparser.h
+    ${LUA_SOURCE_ROOT}/lprefix.h
+    ${LUA_SOURCE_ROOT}/lstate.h
+    ${LUA_SOURCE_ROOT}/lstring.h
+    ${LUA_SOURCE_ROOT}/ltable.h
+    ${LUA_SOURCE_ROOT}/ltm.h
+    ${LUA_SOURCE_ROOT}/lua.h
+    ${LUA_SOURCE_ROOT}/lua.hpp
+    ${LUA_SOURCE_ROOT}/luaconf.h
+    ${LUA_SOURCE_ROOT}/lualib.h
+    ${LUA_SOURCE_ROOT}/lundump.h
+    ${LUA_SOURCE_ROOT}/lvm.h
+    ${LUA_SOURCE_ROOT}/lzio.h
+    PARENT_SCOPE)
+
+set(LUA_LIBRARY_PUBLIC_INCLUDE
+    ${LUA_SOURCE_ROOT}/lauxlib.h
+    ${LUA_SOURCE_ROOT}/lua.h
+    ${LUA_SOURCE_ROOT}/lua.hpp
+    ${LUA_SOURCE_ROOT}/luaconf.h
+    ${LUA_SOURCE_ROOT}/lualib.h
+    PARENT_SCOPE)
+
+set(LUA_COMPILER_SOURCE
+    ${LUA_SOURCE_ROOT}/luac.c
+    PARENT_SCOPE)
+
+set(LUA_INTERPRETER_SOURCE
+    ${LUA_SOURCE_ROOT}/lua.c
+    PARENT_SCOPE)
