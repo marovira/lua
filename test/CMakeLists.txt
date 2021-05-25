@@ -1,3 +1,6 @@
+#================================
+# Project setup.
+#================================
 cmake_minimum_required(VERSION 3.11)
 project(lua_test LANGUAGES CXX C)
 
@@ -7,12 +10,22 @@ if (POLICY CMP0072)
     cmake_policy(SET CMP0072 NEW)
 endif()
 
+#================================
+# Directory variables.
+#================================
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_DIR "${ROOT_DIR}/../cmake")
 
+#================================
+# Option variables.
+#================================
+# Make sure we disable the compiler and interpreter targets from Lua.
 set(LUA_BUILD_COMPILER OFF CACHE INTERNAL "")
 set(LUA_BUILD_INTERPRETER OFF CACHE INTERNAL "")
 
+#================================
+# Packages.
+#================================
 include(FetchContent)
 
 FetchContent_Declare(
