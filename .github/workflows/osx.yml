@@ -61,7 +61,6 @@ jobs:
         shell: bash
         run: |
           rm -rf ./build
-          rmdir ./build
 
       - name: Test
         shell: bash
