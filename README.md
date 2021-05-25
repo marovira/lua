@@ -2,6 +2,11 @@
 
 > The Lua Programming Language with Modern CMake
 
+[![.github/workflows/clang.yml](https://github.com/marovira/lua/actions/workflows/clang.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/clang.yml)
+[![.github/workflows/gcc.yml](https://github.com/marovira/lua/actions/workflows/gcc.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/gcc.yml)
+[![.github/workflows/osx.yml](https://github.com/marovira/lua/actions/workflows/osx.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/osx.yml)
+[![MSVC](https://github.com/marovira/lua/actions/workflows/msvc.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/msvc.yml)
+
 ## About
 
 This is a bundle of the Lua Programming Language v5.4.3 that provides a modern
