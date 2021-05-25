@@ -43,6 +43,7 @@ target_include_directories(lua_lib PUBLIC
 target_compile_features(lua_lib PRIVATE cxx_std_17)
 set_target_properties(lua_lib PROPERTIES DEBUG_POSTFIX "d")
 add_library(lua::lua ALIAS lua_lib)
+set_target_properties(lua_lib PROPERTIES FOLDER "lua")
 
 #================================
 # Lua compiler.
@@ -51,6 +52,7 @@ if (LUA_BUILD_COMPILER)
     source_group("source" FILES ${LUA_COMPILER_SOURCE})
     add_executable(luac ${LUA_COMPILER_SOURCE})
     target_link_libraries(luac PRIVATE lua_lib)
+    set_target_properties(luac PROPERTIES FOLDER "lua")
 endif()
 
 #================================
@@ -60,6 +62,7 @@ if (LUA_BUILD_INTERPRETER)
     source_group("source" FILES ${LUA_INTERPRETER_SOURCE})
     add_executable(lua ${LUA_INTERPRETER_SOURCE})
     target_link_libraries(lua PRIVATE lua_lib)
+    set_target_properties(lua PROPERTIES FOLDER "lua")
 endif()
 
 #================================
