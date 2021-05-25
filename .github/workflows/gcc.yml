@@ -1,0 +1,71 @@
+name: GCC
+
+on: [push]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Linux GCC Debug",
+            artifact: "linux_gcc_debug.tar.xz",
+            os: ubuntu-latest,
+            build_type: "Debug",
+            cc: "gcc",
+            cxx: "g++"
+          }
+        - {
+            name: "Linux GCC Release",
+            artifact: "linux_gcc_release.tar.xz",
+            os: ubuntu-latest,
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++"
+          }
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup
+        shell: bash
+        env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        run: |
+          mkdir build && cd build
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF -DLUA_INSTALL_TARGET=ON
+
+      - name: Build
+        shell: bash
+        working-directory: ./build
+        env:
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        run: |
+          make
+
+      - name: Install
+        shell: bash
+        working-directory: ./build
+        env:
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        rum: |
+          make install
+
+      - name: Test
+        shell: bash
+        working-directory: ./test
+        env:
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        run: |
+          mkdir build && cd build
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF
+          make
+
+

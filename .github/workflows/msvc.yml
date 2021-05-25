@@ -1,0 +1,68 @@
+name: MSVC
+
+on: [push]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "MSVC Debug",
+            artifact: "msvc_debug.tar.xz",
+            os: windows-latest,
+            build_type: "Debug",
+            cc: "cl",
+            cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+        - {
+            name: "MSVC Release",
+            artifact: "msvc_release.tar.xz",
+            os: windows-latest,
+            build_type: "Release",
+            cc: "cl",
+            cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup
+        shell: powershell
+        env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
+        run: |
+          New-Item -Path . -Name "build" -ItemType "directory"
+          Set-Location -Path ./build
+          cmake -G "Visual Studio 16 2019" .. -DBUILD_SHARED_LIBS=OFF -DLUA_INSTAL_TARGET=ON
+
+      - name: Build
+        shell: powershell
+        working-directory: ./build
+        env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
+        run: |
+          cmake --build . --config $env:BUILD_TYPE
+
+      - name: Install
+        shell: powershell
+        working-directory: ./build
+        env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
+        run: |
+          cmake --build . --target INSTALL --config $env:BUILD_TYPE
+
+      - name: Test
+        shell: powershell
+        working-directory: ./test
+        env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
+        run: |
+          New-Item -Path . -Name "build" -ItemType "directory"
+          Set-Location -Path ./build
+          cmake -G "Visual Studio 16 2019" .. -DBUILD_SHARED_LIBS=OFF
+          cmake --build . --config $env:BUILD_TYPE
