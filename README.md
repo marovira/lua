@@ -15,7 +15,17 @@ instructions, see the next section.
 
 There are a couple of ways to integrate this bundle into your project. All of
 them will use the same linking code, so let's discuss how to include it first.
-You have 3 options.
+You have 3 options. For the first two options, it is recommended that you add
+the following to your CMakelists (especially if you only wish to link to the
+library itself):
+
+```cmake
+set(LUA_BUILD_COMPILER OFF CACHE INTERNAL "")
+set(LUA_BUILD_INTERPRETER OFF CACHE INTERNAL "")
+```
+
+Adding these two lines will disable the creation of the compiler and interpreter
+targets for Lua. 
 
 ### As a Subdirectory
 
@@ -80,8 +90,11 @@ target_link_libraries(<your-target> PRIVATE lua::lua)
 Once that is done you can include the Lua headers as follows:
 
 ```c++
-#include <lua/lua.h>
+#include <lua.h>
 ```
+
+You will find an example executable under the `./test` directory containing a
+sample CMake configuration for building with this bundle.
 
 ## Licenses
 
