@@ -26,7 +26,8 @@
 # Always search for the non-versioned Lua first.
 set(_POSSIBLE_LUA_INCLUDE include include/lua)
 set(_POSSIBLE_LUA_EXECUTABLE lua)
-set(_POSSIBLE_LUA_LIBRARY lua lua_lib)
+set(_POSSIBLE_LUA_LIBRARY_RELEASE lua lua_lib)
+set(_POSSIBLE_LUA_LIBRARY_DEBUG luad lua_libd)
 
 # Determine the possible naming suffixes (there is not standard for this).
 if (lua_FIND_VERSION_MAJOR AND lua_FIND_VERSION_MINOR)
@@ -65,7 +66,8 @@ endif()
 foreach(_SUFFIX ${_POSSIBLE_SUFFIXES})
     list(APPEND _POSSIBLE_LUA_INCLUDE "include/lua$_SUFFIX")
     list(APPEND _POSSIBLE_LUA_EXECUTABLE "lua${_SUFFIX}")
-    list(APPEND _POSSIBLE_LUA_LIBRARY "lua${_SUFFIX}")
+    list(APPEND _POSSIBLE_LUA_LIBRARY_RELEASE "lua${_SUFFIX}")
+    list(APPEND _POSSIBLE_LUA_LIBRARY_DEBUG "lua${_SUFFIX}d")
 endforeach()
 
 # Find the Lua executable.
@@ -84,8 +86,16 @@ find_path(LUA_INCLUDE_DIR lua.h
     )
 
 # Find the Lua library.
-find_library(LUA_LIBRARY
-    NAMES ${_POSSIBLE_LUA_LIBRARY}
+find_library(LUA_LIBRARY_RELEASE
+    NAMES ${_POSSIBLE_LUA_LIBRARY_RELEASE}
+    HINTS
+    $ENV{LUA_DIR}
+    PATH_SUFFIXES lib64 lib
+    PATHS ${_POSSIBLE_PATHS}
+    )
+
+find_library(LUA_LIBRARY_DEBUG
+    NAMES ${_POSSIBLE_LUA_LIBRARY_DEBUG}
     HINTS
     $ENV{LUA_DIR}
     PATH_SUFFIXES lib64 lib
@@ -111,6 +121,7 @@ if (LUA_INCLUDE_DIR AND EXISTS "${LUA_INCLUDE_DIR}/lua.h")
 endif()
 
 include(FindPackageHandleStandardArgs)
+include(SelectLibraryConfigurations)
 
 find_package_handle_standard_args(lua
     REQUIRED_VARS LUA_LIBRARIES LUA_INCLUDE_DIR
@@ -118,10 +129,15 @@ find_package_handle_standard_args(lua
 mark_as_advanced(LUA_INCLUDE_DIR LUA_LIBRARIES LUA_LIBRARY LUA_MATH_LIBRARY
     LUA_EXECUTABLE)
 
+select_library_configurations(LUA)
+
 if(LUA_FOUND AND NOT TARGET lua::lua_lib)
     add_library(lua::lua STATIC IMPORTED)
     set_target_properties(lua::lua PROPERTIES 
-        IMPORTED_LOCATION ${LUA_LIBRARIES}
+        IMPORTED_LOCATION_DEBUG ${LUA_LIBRARY_DEBUG}
+        IMPORTED_LOCATION_RELEASE ${LUA_LIBRARY_RELEASE}
+        IMPORTED_LOCATION_RELWITHDEBINFO ${LUA_LIBRARY_RELEASE}
+        IMPORTED_LOCATION_MINSIZEREL ${LUA_LIBRARY_RELEASE}
         INTERFACE_INCLUDE_DIRECTORIES ${LUA_INCLUDE_DIR}
         )
 endif()

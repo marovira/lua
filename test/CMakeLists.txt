@@ -14,7 +14,7 @@ endif()
 # Directory variables.
 #================================
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
-set(CMAKE_DIR ${ROOT_DIR}/cmake)
+set(CMAKE_DIR "${ROOT_DIR}/../cmake")
 
 #================================
 # Option variables.
