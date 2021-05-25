@@ -54,7 +54,7 @@ jobs:
         env:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
-        rum: |
+        run: |
           make install
 
       - name: Test
