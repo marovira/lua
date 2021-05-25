@@ -15,7 +15,6 @@ endif()
 #================================
 option(LUA_BUILD_COMPILER "Build Lua compiler" ON)
 option(LUA_BUILD_INTERPRETER "Build Lua interpreter" ON)
-option(LUA_BUILD_TEST "Build test app" OFF)
 option(LUA_INSTALL_TARGET "Create install target" OFF)
 
 #================================
