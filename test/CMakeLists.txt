@@ -33,8 +33,8 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/marovira/lua
     )
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_DIR})
-find_package(lua QUIET)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_DIR}")
+find_package(lua QUIET MODULE)
 
 if (NOT LUA_FOUND AND NOT lua_POPULATED)
     FetchContent_MakeAvailable(lua)
