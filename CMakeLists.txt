@@ -117,6 +117,18 @@ if (LUA_INSTALL_TARGET)
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/lua"
         )
 
+    if (MSVC)
+        set(PDB_DIR_SUFFIX 
+            "$<$<CONFIG:Debug>:Debug>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>")
+        set(LIB_SUFFIX "$<$<CONFIG:Debug>:d>")
+
+        set(PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${PDB_DIR_SUFFIX}")
+        set(PDB_NAME "lua_lib${LIB_SUFFIX}.pdb")
+        install(FILES
+            "${PDB_OUTPUT_DIRECTORY}/${PDB_NAME}"
+            DESTINATION lib OPTIONAL)
+    endif()
+
     if (LUA_BUILD_COMPILER)
         install(TARGETS luac
             DESTINATION bin
