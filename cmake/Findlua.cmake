@@ -115,7 +115,6 @@ endif()
 if (LUA_INCLUDE_DIR AND EXISTS "${LUA_INCLUDE_DIR}/lua.h")
     file(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_str REGEX "^#define[
     \t]+LUA_RELEASE[ \t]+\"Lua .+\"")
-    message(STATUS "${lua_version_str}")
     string(REGEX REPLACE "^#define[ \t]+LUA_RELEASE[ \t]+\"Lua ([^\"]+)\".*"
         "\\1" LUA_VERSION_STRING "${lua_version_str}")
     unset(lua_version_str)
