@@ -115,6 +115,7 @@ endif()
 if (LUA_INCLUDE_DIR AND EXISTS "${LUA_INCLUDE_DIR}/lua.h")
     file(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_str REGEX "^#define[
     \t]+LUA_RELEASE[ \t]+\"Lua .+\"")
+    message(STATUS "${lua_version_str}")
     string(REGEX REPLACE "^#define[ \t]+LUA_RELEASE[ \t]+\"Lua ([^\"]+)\".*"
         "\\1" LUA_VERSION_STRING "${lua_version_str}")
     unset(lua_version_str)
@@ -123,13 +124,13 @@ endif()
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
+select_library_configurations(LUA)
+
 find_package_handle_standard_args(lua
     REQUIRED_VARS LUA_LIBRARIES LUA_INCLUDE_DIR
     VERSION_VAR LUA_VERSION_STRING)
 mark_as_advanced(LUA_INCLUDE_DIR LUA_LIBRARIES LUA_LIBRARY LUA_MATH_LIBRARY
     LUA_EXECUTABLE)
-
-select_library_configurations(LUA)
 
 if(LUA_FOUND AND NOT TARGET lua::lua_lib)
     add_library(lua::lua STATIC IMPORTED)
