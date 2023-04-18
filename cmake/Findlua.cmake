@@ -113,11 +113,25 @@ if (LUA_LIBRARY)
 endif()
 
 if (LUA_INCLUDE_DIR AND EXISTS "${LUA_INCLUDE_DIR}/lua.h")
-    file(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_str REGEX "^#define[
-    \t]+LUA_RELEASE[ \t]+\"Lua .+\"")
-    string(REGEX REPLACE "^#define[ \t]+LUA_RELEASE[ \t]+\"Lua ([^\"]+)\".*"
-        "\\1" LUA_VERSION_STRING "${lua_version_str}")
-    unset(lua_version_str)
+    file(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_major_str
+        REGEX "^#define[ \t]+LUA_VERSION_MAJOR[ \t]+\"[0-9]+\"")
+    file(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_minor_str
+        REGEX "^#define[ \t]+LUA_VERSION_MINOR[ \t]+\"[0-9]+\"")
+    file(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_release_str
+        REGEX "^#define[ \t]+LUA_VERSION_RELEASE[ \t]+\"[0-9]+\"")
+
+    string(REGEX REPLACE
+        "^#define[ \t]+LUA_VERSION_MAJOR[ \t]+\"([0-9]+)\"" "\\1"
+        lua_version_major "${lua_version_major_str}")
+    string(REGEX REPLACE
+        "^#define[ \t]+LUA_VERSION_MINOR[ \t]+\"([0-9]+)\"" "\\1"
+        lua_version_minor "${lua_version_minor_str}")
+    string(REGEX REPLACE
+        "^#define[ \t]+LUA_VERSION_RELEASE[ \t]+\"([0-9]+)\"" "\\1"
+        lua_version_release "${lua_version_release_str}")
+
+    set(LUA_VERSION_STRING
+        "${lua_version_major}.${lua_version_minor}.${lua_version_release}")
 endif()
 
 include(FindPackageHandleStandardArgs)
@@ -131,7 +145,8 @@ find_package_handle_standard_args(lua
 mark_as_advanced(LUA_INCLUDE_DIR LUA_LIBRARIES LUA_LIBRARY LUA_MATH_LIBRARY
     LUA_EXECUTABLE)
 
-if(LUA_FOUND AND NOT TARGET lua::lua_lib)
+message(STATUS "found: ${lua_FOUND}")
+if(lua_FOUND AND NOT TARGET lua::lua_lib)
     add_library(lua::lua STATIC IMPORTED)
     set_target_properties(lua::lua PROPERTIES 
         IMPORTED_LOCATION_DEBUG ${LUA_LIBRARY_DEBUG}
