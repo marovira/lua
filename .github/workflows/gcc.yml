@@ -78,4 +78,5 @@ jobs:
           CXX: ${{ matrix.config.cxx }}
         run: |
           cmake --preset=gcc -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF
+          cd ./build
           make

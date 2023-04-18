@@ -72,6 +72,6 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.config.build_type }}
         run: |
-          cmake --preset=msvc
+          cmake --preset=msvc -DBUILD_SHARED_LIBS=OFF
           cd ./build
-          cmake --build . -- config $env:BUILD_TYPE
+          cmake --build . --config $env:BUILD_TYPE
