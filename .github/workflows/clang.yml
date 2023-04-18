@@ -1,6 +1,20 @@
 name: Clang
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.clang-format'
+      - 'data/**'
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.clang-format'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,7 +26,6 @@ jobs:
         config:
         - {
             name: "Linux Clang Debug",
-            artifact: "linux_gcc_debug.tar.xz",
             os: ubuntu-latest,
             build_type: "Debug",
             cc: "clang",
@@ -20,32 +33,29 @@ jobs:
           }
         - {
             name: "Linux Clang Release",
-            artifact: "linux_gcc_release.tar.xz",
             os: ubuntu-latest,
             build_type: "Release",
             cc: "clang",
             cxx: "clang++"
           }
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Setup
+      - name: Install clang
+        uses: egor-tensin/setup-clang@v1
+        with:
+          version: 15
+
+      - name: Build
         shell: bash
         env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
           BUILD_TYPE: ${{ matrix.config.build_type }}
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
-          mkdir build && cd build
-          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF -DLUA_INSTALL_TARGET=ON
-
-      - name: Build
-        shell: bash
-        working-directory: ./build
-        env:
-          CC: ${{ matrix.config.cc }}
-          CXX: ${{ matrix.config.cxx }}
-        run: |
+          cmake --preset=clang -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF
+          cd ./build
           make
 
       - name: Install
@@ -70,6 +80,5 @@ jobs:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
-          mkdir build && cd build
-          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF -DLUA_INSTALL_TARGET=ON
+          cmake --preset=clang -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF
           make

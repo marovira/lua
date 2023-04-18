@@ -1,6 +1,20 @@
 name: OSX
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.clang-format'
+      - 'data/**'
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.clang-format'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,7 +26,6 @@ jobs:
         config:
         - {
             name: "OSX Clang Debug",
-            artifact: "linux_gcc_debug.tar.xz",
             os: macos-latest,
             build_type: "Debug",
             cc: "clang",
@@ -20,32 +33,25 @@ jobs:
           }
         - {
             name: "OSX Clang Release",
-            artifact: "linux_gcc_release.tar.xz",
             os: macos-latest,
             build_type: "Release",
             cc: "clang",
             cxx: "clang++"
           }
     steps:
-      - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v3
 
-      - name: Setup
+      - name: Build
         shell: bash
         env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
           BUILD_TYPE: ${{ matrix.config.build_type }}
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
-          mkdir build && cd build
-          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF -DLUA_INSTALL_TARGET=ON
-
-      - name: Build
-        shell: bash
-        working-directory: ./build
-        env:
-          CC: ${{ matrix.config.cc }}
-          CXX: ${{ matrix.config.cxx }}
-        run: |
+          cmake --preset=osx -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF
+          cd ./build
           make
 
       - name: Install
@@ -70,6 +76,5 @@ jobs:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
-          mkdir build && cd build
-          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF -DLUA_INSTALL_TARGET=ON
+          cmake --preset=osx -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=OFF
           make
