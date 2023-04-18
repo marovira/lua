@@ -15,7 +15,7 @@
                 "CMAKE_CXX_STANDARD": "20",
                 "LUA_BUILD_COMPILER": "ON",
                 "LUA_BUILD_INTERPRETER": "ON",
-                "LUA_INSTAL_TARGET": "ON"
+                "LUA_INSTALL_TARGET": "ON"
             }
         },
         {

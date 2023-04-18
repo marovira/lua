@@ -38,7 +38,7 @@ jobs:
             cc: "clang",
             cxx: "clang++"
           }
-    steps:
+
     steps:
       - uses: actions/checkout@v3
 
