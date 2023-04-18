@@ -2,7 +2,7 @@
 # Project setup.
 #================================
 cmake_minimum_required(VERSION 3.24)
-project(lua VERSION 5.4.3 LANGUAGES CXX C)
+project(lua VERSION 5.4.4 LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
