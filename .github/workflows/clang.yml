@@ -6,14 +6,17 @@ on:
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
-      - '.clang-format'
-      - 'data/**'
+      - 'LUA_LICENSE'
+      - 'logo.png'
+      - 'doc/**'
   pull_request:
     branches: [ master ]
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
-      - '.clang-format'
+      - 'LUA_LICENSE'
+      - 'logo.png'
+      - 'doc/**'
   workflow_dispatch:
 
 jobs:
