@@ -46,7 +46,6 @@ jobs:
         shell: bash
         env:
           BUILD_TYPE: ${{ matrix.config.build_type }}
-          BUILD_TYPE: ${{ matrix.config.build_type }}
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
