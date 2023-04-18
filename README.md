@@ -107,4 +107,4 @@ Lua is published under the MIT license and can be viewed
 [here](https://github.com/marovira/lua/blob/master/LUA_LICENSE). For more
 information, please see their official website [here](https://www.lua.org/).
 
-This bundle is published under the BSD-3 license can can be viewed [here](https://github.com/marovira/lua/blob/master/LICENSE)
+This bundle is published under the BSD-3 license can be viewed [here](https://github.com/marovira/lua/blob/master/LICENSE)
