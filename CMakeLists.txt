@@ -1,20 +1,16 @@
 #================================
 # Project setup.
 #================================
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.24)
 project(lua VERSION 5.4.3 LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-if (POLICY CMP0072)
-    cmake_policy(SET CMP0072 NEW)
-endif()
-
 #================================
 # Option variables.
 #================================
-option(LUA_BUILD_COMPILER "Build Lua compiler" ON)
-option(LUA_BUILD_INTERPRETER "Build Lua interpreter" ON)
+option(LUA_BUILD_COMPILER "Build Lua compiler" OFF)
+option(LUA_BUILD_INTERPRETER "Build Lua interpreter" OFF)
 option(LUA_INSTALL_TARGET "Create install target" OFF)
 
 #================================
@@ -55,7 +51,7 @@ target_include_directories(lua_lib PUBLIC
 if (UNIX AND NOT APPLE)
     target_link_libraries(lua_lib PUBLIC ${LUA_LIBS})
 endif()
-target_compile_features(lua_lib PRIVATE cxx_std_17)
+target_compile_features(lua_lib PRIVATE cxx_std_20)
 set_target_properties(lua_lib PROPERTIES DEBUG_POSTFIX "d")
 add_library(lua::lua ALIAS lua_lib)
 set_target_properties(lua_lib PROPERTIES FOLDER "lua")
@@ -97,7 +93,7 @@ if (LUA_INSTALL_TARGET)
     write_basic_package_version_file(
         "${PROJECT_BINARY_DIR}/luaConfigVersion.cmake"
         VERSION ${PACKAGE_VERSION}
-        COMPATIBILITY AnyNewerVersion
+        COMPATIBILITY ExactVersion
         )
 
     install(EXPORT lua_lib
@@ -107,7 +103,8 @@ if (LUA_INSTALL_TARGET)
         )
 
     install(FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/lua-config.cmake"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/luaConfig.cmake"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Findlua.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/luaConfigVersion.cmake"
         DESTINATION lib/cmake/lua
         )

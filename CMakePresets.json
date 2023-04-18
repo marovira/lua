@@ -1,0 +1,49 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired":{
+        "major": 3,
+        "minor": 24,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "displayName": "default",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_CXX_STANDARD": "20",
+                "LUA_BUILD_COMPILER": "ON",
+                "LUA_BUILD_INTERPRETER": "ON"
+            }
+        },
+        {
+            "name": "msvc",
+            "displayName": "MSVC",
+            "inherits": "default",
+            "description": "Default build for MSVC",
+            "generator": "Visual Studio 17 2022"
+        },
+        {
+            "name": "gcc",
+            "displayName": "GCC",
+            "description": "Default build for GCC",
+            "inherits": "default",
+            "generator": "Unix Makefiles"
+        },
+        {
+            "name": "clang",
+            "displayName": "Clang",
+            "description": "Default build for Clang",
+            "inherits": "default",
+            "generator": "Unix Makefiles"
+        },
+        {
+            "name": "osx",
+            "displayName": "OSX",
+            "description": "Default build for OSX",
+            "inherits": "default",
+            "generator": "Unix Makefiles"
+        }
+    ]
+}
