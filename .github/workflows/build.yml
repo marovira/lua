@@ -69,7 +69,7 @@ jobs:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
-          cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$HOME
+          cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$HOME/lua
           cd ./build
           if [[ "$OSTYPE" == "msys" ]]; then
             cmake --build . --config $BUILD_TYPE
