@@ -65,6 +65,7 @@ jobs:
         working-directory: ./test
         env:
           BUILD_TYPE: ${{ matrix.config.build_type }}
+          CONFIG_TYPE: ${{ matrix.config.preset }}
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
