@@ -59,7 +59,6 @@ jobs:
           CXX: ${{ matrix.config.cxx }}
         run: |
           cmake --install ./build
-          sudo make install
 
       - name: Test App
         shell: bash
