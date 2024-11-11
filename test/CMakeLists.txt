@@ -1,7 +1,7 @@
 #================================
 # Project setup.
 #================================
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.30)
 project(lua_test LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -16,7 +16,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_DIR})
 #================================
 # Packages.
 #================================
-find_package(lua 5.4.4 QUIET)
+find_package(lua 5.4.7 QUIET)
 
 if (NOT lua_FOUND)
     include(FetchContent)
