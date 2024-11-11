@@ -1,81 +1,128 @@
-set(LUA_LIBRARY_SOURCE
-    ${LUA_SOURCE_ROOT}/lapi.c
-    ${LUA_SOURCE_ROOT}/lcode.c
-    ${LUA_SOURCE_ROOT}/lctype.c
-    ${LUA_SOURCE_ROOT}/ldebug.c
-    ${LUA_SOURCE_ROOT}/ldo.c
-    ${LUA_SOURCE_ROOT}/ldump.c
-    ${LUA_SOURCE_ROOT}/lfunc.c
-    ${LUA_SOURCE_ROOT}/lgc.c
-    ${LUA_SOURCE_ROOT}/llex.c
-    ${LUA_SOURCE_ROOT}/lmem.c
-    ${LUA_SOURCE_ROOT}/lobject.c
-    ${LUA_SOURCE_ROOT}/lopcodes.c
-    ${LUA_SOURCE_ROOT}/lparser.c
-    ${LUA_SOURCE_ROOT}/lstate.c
-    ${LUA_SOURCE_ROOT}/lstring.c
-    ${LUA_SOURCE_ROOT}/ltable.c
-    ${LUA_SOURCE_ROOT}/ltm.c
-    ${LUA_SOURCE_ROOT}/lundump.c
-    ${LUA_SOURCE_ROOT}/lvm.c
-    ${LUA_SOURCE_ROOT}/lzio.c
-    ${LUA_SOURCE_ROOT}/lauxlib.c
-    ${LUA_SOURCE_ROOT}/lbaselib.c
-    ${LUA_SOURCE_ROOT}/lcorolib.c
-    ${LUA_SOURCE_ROOT}/ldblib.c
-    ${LUA_SOURCE_ROOT}/liolib.c
-    ${LUA_SOURCE_ROOT}/lmathlib.c
-    ${LUA_SOURCE_ROOT}/loadlib.c
-    ${LUA_SOURCE_ROOT}/loslib.c
-    ${LUA_SOURCE_ROOT}/lstrlib.c
-    ${LUA_SOURCE_ROOT}/ltablib.c
-    ${LUA_SOURCE_ROOT}/lutf8lib.c
-    ${LUA_SOURCE_ROOT}/linit.c
-    PARENT_SCOPE)
+set(SRC_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
-set(LUA_LIBRARY_INCLUDE
-    ${LUA_SOURCE_ROOT}/lapi.h
+set(LIB_SRC_LIST
+    ${SRC_ROOT}/lapi.c
+    ${SRC_ROOT}/lauxlib.c
+    ${SRC_ROOT}/lbaselib.c
+    ${SRC_ROOT}/lcode.c
+    ${SRC_ROOT}/lcorolib.c
+    ${SRC_ROOT}/lctype.c
+    ${SRC_ROOT}/ldblib.c
+    ${SRC_ROOT}/ldebug.c
+    ${SRC_ROOT}/ldo.c
+    ${SRC_ROOT}/ldump.c
+    ${SRC_ROOT}/lfunc.c
+    ${SRC_ROOT}/lgc.c
+    ${SRC_ROOT}/linit.c
+    ${SRC_ROOT}/liolib.c
+    ${SRC_ROOT}/llex.c
+    ${SRC_ROOT}/lmathlib.c
+    ${SRC_ROOT}/lmem.c
+    ${SRC_ROOT}/loadlib.c
+    ${SRC_ROOT}/lobject.c
+    ${SRC_ROOT}/lopcodes.c
+    ${SRC_ROOT}/loslib.c
+    ${SRC_ROOT}/lparser.c
+    ${SRC_ROOT}/lstate.c
+    ${SRC_ROOT}/lstring.c
+    ${SRC_ROOT}/lstrlib.c
+    ${SRC_ROOT}/ltable.c
+    ${SRC_ROOT}/ltablib.c
+    ${SRC_ROOT}/ltm.c
+    ${SRC_ROOT}/lundump.c
+    ${SRC_ROOT}/lutf8lib.c
+    ${SRC_ROOT}/lvm.c
+    ${SRC_ROOT}/lzio.c
+)
+
+set(LIB_INCLUDE_LIST
+    ${SRC_ROOT}/lapi.h
+    ${SRC_ROOT}/lauxlib.h
+    ${SRC_ROOT}/lcode.h
+    ${SRC_ROOT}/lctype.h
+    ${SRC_ROOT}/ldebug.h
+    ${SRC_ROOT}/ldo.h
+    ${SRC_ROOT}/lfunc.h
+    ${SRC_ROOT}/lgc.h
+    ${SRC_ROOT}/ljumptab.h
+    ${SRC_ROOT}/llex.h
+    ${SRC_ROOT}/llimits.h
+    ${SRC_ROOT}/lmem.h
+    ${SRC_ROOT}/lobject.h
+    ${SRC_ROOT}/lopcodes.h
+    ${SRC_ROOT}/lopnames.h
+    ${SRC_ROOT}/lparser.h
+    ${SRC_ROOT}/lprefix.h
+    ${SRC_ROOT}/lstate.h
+    ${SRC_ROOT}/lstring.h
+    ${SRC_ROOT}/ltable.h
+    ${SRC_ROOT}/ltm.h
+    ${SRC_ROOT}/lua.h
+    ${SRC_ROOT}/luaconf.h
+    ${SRC_ROOT}/lualib.h
+    ${SRC_ROOT}/lundump.h
+    ${SRC_ROOT}/lvm.h
+    ${SRC_ROOT}/lzio.h
+)
+
+#================================
+# Libraries.
+#================================
+set(LIBS)
+if (UNIX AND NOT APPLE)
+    include(CheckLibraryExists)
+    check_library_exists(m sin "" HAVE_LIB_M)
+    if (HAVE_LIB_M)
+        list(APPEND LIBS m)
+    endif()
+
+endif()
+
+#================================
+# Lua library.
+#================================
+source_group("include" FILES ${LIB_INCLUDE_LIST})
+source_group("source" FILES ${LIB_SRC_LIST})
+add_library(liblua ${LIB_INCLUDE_LIST} ${LIB_SRC_LIST})
+target_include_directories(liblua PUBLIC
+    $<BUILD_INTERFACE:${SRC_ROOT}>
+    $<INSTALL_INTERFACE:include>
+    )
+if (UNIX AND NOT APPLE)
+    target_link_libraries(liblua PUBLIC ${LIBS})
+endif()
+target_compile_features(liblua PRIVATE cxx_std_20)
+set_target_properties(liblua PROPERTIES DEBUG_POSTFIX "d")
+add_library(lua::lua ALIAS liblua)
+set_target_properties(liblua PROPERTIES FOLDER "lua")
+
+#================================
+# Lua compiler.
+#================================
+if (LUA_BUILD_COMPILER)
+    set(COMPILER_SRC ${SRC_ROOT}/luac.c)
+    source_group("source" FILES ${COMPILER_SRC})
+    add_executable(luac ${COMPILER_SRC})
+    target_link_libraries(luac PRIVATE liblua)
+    set_target_properties(luac PROPERTIES FOLDER "lua")
+endif()
+
+#================================
+# Lua interpreter
+#================================
+if (LUA_BUILD_INTERPRETER)
+    set(INTERP_SRC ${SRC_ROOT}/lua.c)
+    source_group("source" FILES ${INTERP_SRC})
+    add_executable(lua ${INTERP_SRC})
+    target_link_libraries(lua PRIVATE liblua)
+    set_target_properties(lua PROPERTIES FOLDER "lua")
+endif()
+
+
+set(LUA_INSTALL_INCLUDE
     ${LUA_SOURCE_ROOT}/lauxlib.h
-    ${LUA_SOURCE_ROOT}/lcode.h 
-    ${LUA_SOURCE_ROOT}/lctype.h
-    ${LUA_SOURCE_ROOT}/ldebug.h
-    ${LUA_SOURCE_ROOT}/ldo.h   
-    ${LUA_SOURCE_ROOT}/lfunc.h
-    ${LUA_SOURCE_ROOT}/lgc.h
-    ${LUA_SOURCE_ROOT}/ljumptab.h
-    ${LUA_SOURCE_ROOT}/llex.h 
-    ${LUA_SOURCE_ROOT}/llimits.h
-    ${LUA_SOURCE_ROOT}/lmem.h  
-    ${LUA_SOURCE_ROOT}/lobject.h
-    ${LUA_SOURCE_ROOT}/lopcodes.h
-    ${LUA_SOURCE_ROOT}/lopnames.h
-    ${LUA_SOURCE_ROOT}/lparser.h
-    ${LUA_SOURCE_ROOT}/lprefix.h
-    ${LUA_SOURCE_ROOT}/lstate.h
-    ${LUA_SOURCE_ROOT}/lstring.h
-    ${LUA_SOURCE_ROOT}/ltable.h
-    ${LUA_SOURCE_ROOT}/ltm.h
     ${LUA_SOURCE_ROOT}/lua.h
     ${LUA_SOURCE_ROOT}/lua.hpp
     ${LUA_SOURCE_ROOT}/luaconf.h
     ${LUA_SOURCE_ROOT}/lualib.h
-    ${LUA_SOURCE_ROOT}/lundump.h
-    ${LUA_SOURCE_ROOT}/lvm.h
-    ${LUA_SOURCE_ROOT}/lzio.h
-    PARENT_SCOPE)
-
-set(LUA_LIBRARY_PUBLIC_INCLUDE
-    ${LUA_SOURCE_ROOT}/lauxlib.h
-    ${LUA_SOURCE_ROOT}/lua.h
-    ${LUA_SOURCE_ROOT}/lua.hpp
-    ${LUA_SOURCE_ROOT}/luaconf.h
-    ${LUA_SOURCE_ROOT}/lualib.h
-    PARENT_SCOPE)
-
-set(LUA_COMPILER_SOURCE
-    ${LUA_SOURCE_ROOT}/luac.c
-    PARENT_SCOPE)
-
-set(LUA_INTERPRETER_SOURCE
-    ${LUA_SOURCE_ROOT}/lua.c
     PARENT_SCOPE)

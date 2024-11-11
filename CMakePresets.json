@@ -19,6 +19,13 @@
             }
         },
         {
+            "name": "unix",
+            "displayName": "unix",
+            "hidden": true,
+            "inherits": "default",
+            "generator": "Unix Makefiles"
+        },
+        {
             "name": "msvc",
             "displayName": "MSVC",
             "inherits": "default",
@@ -26,25 +33,16 @@
             "generator": "Visual Studio 17 2022"
         },
         {
-            "name": "gcc",
-            "displayName": "GCC",
-            "description": "Default build for GCC",
-            "inherits": "default",
-            "generator": "Unix Makefiles"
+            "name": "linux",
+            "displayName": "Linux",
+            "description": "Default build for Linux systems",
+            "inherits": "unix"
         },
         {
-            "name": "clang",
-            "displayName": "Clang",
-            "description": "Default build for Clang",
-            "inherits": "default",
-            "generator": "Unix Makefiles"
-        },
-        {
-            "name": "osx",
-            "displayName": "OSX",
-            "description": "Default build for OSX",
-            "inherits": "default",
-            "generator": "Unix Makefiles"
+            "name": "macOS",
+            "displayName": "macOS",
+            "description": "Default build for macOS",
+            "inherits": "unix"
         }
     ]
 }
