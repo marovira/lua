@@ -54,11 +54,17 @@ jobs:
 
       - name: Install Lua
         shell: bash
+        working-directory: ./build
         env:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
+          BUILD_TYPE: ${{ matrix.build }}
         run: |
-          cmake --install ./build
+          if [[ "$OSTYPE" == "msys" ]]; then
+            cmake --install . --config $BUILD_TYPE
+          else
+            cmake --install .
+          fi
 
       - name: Test App
         shell: bash
