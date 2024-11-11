@@ -8,7 +8,7 @@
 This repository contains the CMake files for the Lua Programming Language aimed for those
 that wish to use the library in [Modern CMake](https://cliutils.gitlab.io/modern-cmake/README.html).
 
-[!NOTE]
+> [!NOTE]
 > The bundle provided here is aimed at *modern* CMake. CMake has come a long way as a
 > build generation tool and most modern systems now ship with CMake versions 3.20+ by
 > default. As a result, this bundle **requires** a minimum CMake version of 3.30+.
