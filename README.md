@@ -1,17 +1,17 @@
-# The Lua Programming Language
+# The Lua Programming Language with Modern CMake
 
-> The Lua Programming Language with Modern CMake
 
-[![.github/workflows/clang.yml](https://github.com/marovira/lua/actions/workflows/clang.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/clang.yml)
-[![.github/workflows/gcc.yml](https://github.com/marovira/lua/actions/workflows/gcc.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/gcc.yml)
-[![.github/workflows/osx.yml](https://github.com/marovira/lua/actions/workflows/osx.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/osx.yml)
-[![MSVC](https://github.com/marovira/lua/actions/workflows/msvc.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/msvc.yml)
+[![Build](https://github.com/marovira/lua/actions/workflows/build.yml/badge.svg)](https://github.com/marovira/lua/actions/workflows/build.yml)
 
-## About
+## Introduction
 
-This is a bundle of the Lua Programming Language v5.4.4 that provides a modern
-CMake script for easy inclusion into projects and installation. For usage
-instructions, see the next section. 
+This repository contains the CMake files for the Lua Programming Language aimed for those
+that wish to use the library in [Modern CMake](https://cliutils.gitlab.io/modern-cmake/README.html).
+
+[!NOTE]
+> The bundle provided here is aimed at *modern* CMake. CMake has come a long way as a
+> build generation tool and most modern systems now ship with CMake versions 3.20+ by
+> default. As a result, this bundle **requires** a minimum CMake version of 3.30+.
 
 
 ![logo](https://github.com/marovira/lua/blob/master/logo.png)
@@ -35,9 +35,8 @@ You can also add this repository as a submodule using git.
 
 ### Using `FetchContent`
 
-An alternative use is to have CMake deal with downloading the code via
-`FetchContent`. Note that this assumes you have version at least 3.11. To add
-this, add the following to your `CMakelists.txt`:
+An alternative use is to have CMake deal with downloading the code via `FetchContent`. To
+add this, add the following to your `CMakelists.txt`:
 
 ```cmake
 include(FetchContent)
@@ -51,7 +50,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(lua)
 ```
 
-Where `<latest-commit-hash>` can be retrieved from this repository. 
+Where `<latest-commit-hash>` can be retrieved from this repository.
 
 ### Installing
 
@@ -71,7 +70,7 @@ does ship with a `FindLua.cmake`, but that file is written using an older CMake
 style (so we can't link using `target_link_libraries`). Moreover, the way in
 which you must install Lua isn't entirely straight-forward (especially if you
 don't use a package manager) unless you read through the code and figure out
-which directories it looks for. 
+which directories it looks for.
 
 ### Linking
 
