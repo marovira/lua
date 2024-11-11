@@ -26,8 +26,8 @@
 # Always search for the non-versioned Lua first.
 set(_POSSIBLE_LUA_INCLUDE include include/lua)
 set(_POSSIBLE_LUA_EXECUTABLE lua)
-set(_POSSIBLE_LUA_LIBRARY_RELEASE lua lua_lib)
-set(_POSSIBLE_LUA_LIBRARY_DEBUG luad lua_libd)
+set(_POSSIBLE_LUA_LIBRARY_RELEASE lua liblua)
+set(_POSSIBLE_LUA_LIBRARY_DEBUG luad libluad)
 
 # Determine the possible naming suffixes (there is not standard for this).
 if (lua_FIND_VERSION_MAJOR AND lua_FIND_VERSION_MINOR)
@@ -145,7 +145,7 @@ find_package_handle_standard_args(lua
 mark_as_advanced(LUA_INCLUDE_DIR LUA_LIBRARIES LUA_LIBRARY LUA_MATH_LIBRARY
     LUA_EXECUTABLE)
 
-if(lua_FOUND AND NOT TARGET lua::lua_lib)
+if(lua_FOUND AND NOT TARGET lua::liblua)
     add_library(lua::lua STATIC IMPORTED)
     set_target_properties(lua::lua PROPERTIES
         IMPORTED_LOCATION_DEBUG ${LUA_LIBRARY_DEBUG}
