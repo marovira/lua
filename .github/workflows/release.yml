@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: "windows-latest", cxx: "msvc", cc: "msvc", preset: "msvc"}
+          - {os: "ubuntu-24.04", cxx: "g++-14", cc: "gcc-14", preset: "linux"}
+          - {os: "macos-latest", cxx: "clang++", cc: "clang", preset: "macOS"}
+    steps:
+      - name: Chekout
+        uses: actions/checkout@v4
+
+      - name: Build Lua
+        shell: bash
+        env:
+          BUILD_TYPE: Release
+          CONFIG_TYPE: ${{ matrix.config.preset }}
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        run: |
+          cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=install/lua
+          cd ./build
+          if [[ "$OSTYPE" == "msys" ]]; then
+            cmake --build . --config $BUILD_TYPE
+          else
+            make
+          fi
+
+      - name: Install
+        shell: bash
+        working-directory: ./build
+        env:
+          BUILD_TYPE: Release
+          CONFIG_TYPE: ${{ matrix.config.preset }}
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        run: |
+          if [[ "$OSTYPE" == "msys" ]]; then
+            cmake --build . --target INSTALL --config $BUILD_TYPE
+          else
+            make install
+          fi
+
+      - name: Package
+        shell: bash
+        working-directory: ./install
+        env:
+          CONFIG_TYPE: ${{ matrix.config.preset }}
+        run: |
+          if [[ "$OSTYPE" == "msys" ]]; then
+            7z a lua-$GITHUB_REF_NAME-$CONFIG_TYPE-x64.zip -r lua
+          else
+            zip lua-$GITHUB_REF_NAME-$CONFIG_TYPE-x64.zip -r lua
+          fi
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: "./install/*.zip"

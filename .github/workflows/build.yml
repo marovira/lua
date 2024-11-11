@@ -1,0 +1,78 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+    tags-ignore:
+      - "*.*.*"
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+      - 'LICENSE'
+      - '**/release-*.yml'
+    tags-ignore:
+      - "*.*.*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.config.os }}-${{ matrix.build }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: "windows-latest", cxx: "msvc", cc: "msvc", preset: "msvc"}
+          - {os: "ubuntu-24.04", cxx: "g++-14", cc: "gcc-14", preset: "linux"}
+          - {os: "macos-latest", cxx: "clang++", cc: "clang", preset: "macOS"}
+        build: ["Debug", "Release"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Lua
+        shell: bash
+        env:
+          BUILD_TYPE: ${{ matrix.build }}
+          CONFIG_TYPE: ${{ matrix.config.preset }}
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        run: |
+          cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$HOME/lua
+          cd ./build
+          if [[ "$OSTYPE" == "msys" ]]; then
+            cmake --build . --config $BUILD_TYPE
+          else
+            make
+          fi
+
+      - name: Install Lua
+        shell: bash
+        env:
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+        run: |
+          cmake --install ./build
+          sudo make install
+
+      - name: Test App
+        shell: bash
+        working-directory: ./test
+        env:
+          BUILD_TYPE: ${{ matrix.config.build_type }}
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+          run: |
+            cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$HOME
+            cd ./build
+            if [[ "$OSTYPE" == "msys" ]]; then
+              cmake --build . --config $BUILD_TYPE
+            else
+              make
+            fi
