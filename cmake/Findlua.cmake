@@ -1,7 +1,7 @@
 # Locate Lua library
 # This module defines
 #  LUA_EXECUTABLE, if found
-#  LUA_FOUND, if false, do not try to link to Lua 
+#  LUA_FOUND, if false, do not try to link to Lua
 #  LUA_LIBRARIES
 #  LUA_INCLUDE_DIR, where to find lua.h
 #  LUA_VERSION_STRING, the version of Lua found (since CMake 2.8.8)
@@ -31,7 +31,7 @@ set(_POSSIBLE_LUA_LIBRARY_DEBUG luad lua_libd)
 
 # Determine the possible naming suffixes (there is not standard for this).
 if (lua_FIND_VERSION_MAJOR AND lua_FIND_VERSION_MINOR)
-    set(_POSSBILE_SUFFIXES 
+    set(_POSSBILE_SUFFIXES
         "${lua_FIND_VERSION_MAJOR}${lua_FIND_VERSION_MINOR}"
         "${lua_FIND_VERSION_MAJOR}.${lua_FIND_VERSION_MINOR}"
         "-${lua_FIND_VERSION_MAJOR}.${lua_FIND_VERSION_MINOR}"
@@ -80,7 +80,7 @@ find_program(LUA_EXECUTABLE
 
 # Find the Lua header.
 find_path(LUA_INCLUDE_DIR lua.h
-    HINTS $ENV{LUA_DIR} 
+    HINTS $ENV{LUA_DIR}
     PATH_SUFFIXES ${_POSSIBLE_LUA_INCLUDE}
     PATHS ${_POSSIBLE_PATHS}
     )
@@ -145,10 +145,9 @@ find_package_handle_standard_args(lua
 mark_as_advanced(LUA_INCLUDE_DIR LUA_LIBRARIES LUA_LIBRARY LUA_MATH_LIBRARY
     LUA_EXECUTABLE)
 
-message(STATUS "found: ${lua_FOUND}")
 if(lua_FOUND AND NOT TARGET lua::lua_lib)
     add_library(lua::lua STATIC IMPORTED)
-    set_target_properties(lua::lua PROPERTIES 
+    set_target_properties(lua::lua PROPERTIES
         IMPORTED_LOCATION_DEBUG ${LUA_LIBRARY_DEBUG}
         IMPORTED_LOCATION_RELEASE ${LUA_LIBRARY_RELEASE}
         IMPORTED_LOCATION_RELWITHDEBINFO ${LUA_LIBRARY_RELEASE}

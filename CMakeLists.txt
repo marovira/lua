@@ -26,7 +26,7 @@ set(LUA_TEST_ROOT ${LUA_SOURCE_ROOT}/test)
 add_subdirectory(${LUA_SOURCE_ROOT})
 
 #================================
-# Lua interpreter
+# Install
 #================================
 if (LUA_INSTALL_TARGET)
     install(TARGETS liblua
@@ -59,7 +59,7 @@ if (LUA_INSTALL_TARGET)
         )
 
     install(FILES
-        ${LUA_LIBRARY_PUBLIC_INCLUDE}
+        ${LUA_INSTALL_INCLUDE}
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/lua"
         )
 
