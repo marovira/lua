@@ -68,11 +68,11 @@ jobs:
           BUILD_TYPE: ${{ matrix.config.build_type }}
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
-          run: |
-            cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$HOME
-            cd ./build
-            if [[ "$OSTYPE" == "msys" ]]; then
-              cmake --build . --config $BUILD_TYPE
-            else
-              make
-            fi
+        run: |
+          cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$HOME
+          cd ./build
+          if [[ "$OSTYPE" == "msys" ]]; then
+            cmake --build . --config $BUILD_TYPE
+          else
+            make
+          fi
