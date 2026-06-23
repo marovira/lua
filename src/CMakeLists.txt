@@ -91,7 +91,6 @@ target_include_directories(liblua PUBLIC
 if (UNIX AND NOT APPLE)
     target_link_libraries(liblua PUBLIC ${LIBS})
 endif()
-target_compile_features(liblua PRIVATE cxx_std_20)
 set_target_properties(liblua PROPERTIES DEBUG_POSTFIX "d")
 add_library(lua::lua ALIAS liblua)
 set_target_properties(liblua PROPERTIES FOLDER "lua")

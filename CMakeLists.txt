@@ -2,7 +2,7 @@
 # Project setup.
 #================================
 cmake_minimum_required(VERSION 3.30)
-project(lua VERSION 5.4.7 LANGUAGES CXX C)
+project(lua VERSION 5.4.7 LANGUAGES C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -18,7 +18,6 @@ option(LUA_INSTALL_TARGET "Create install target" OFF)
 #================================
 set(LUA_SOURCE_DIR ${PROJECT_SOURCE_DIR})
 set(LUA_SOURCE_ROOT ${LUA_SOURCE_DIR}/src)
-set(LUA_TEST_ROOT ${LUA_SOURCE_ROOT}/test)
 
 #================================
 # Add subdirectories.
