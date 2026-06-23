@@ -1,0 +1,6 @@
+description_case = "upper"
+imperative = true
+no_period = true
+max_header_length = 72
+max_body_length = 75
+whitespace = false
