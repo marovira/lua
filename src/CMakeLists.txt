@@ -91,9 +91,10 @@ target_include_directories(liblua PUBLIC
 if (UNIX AND NOT APPLE)
     target_link_libraries(liblua PUBLIC ${LIBS})
 endif()
-set_target_properties(liblua PROPERTIES DEBUG_POSTFIX "d")
 add_library(lua::lua ALIAS liblua)
-set_target_properties(liblua PROPERTIES FOLDER "lua")
+set_target_properties(liblua PROPERTIES
+    EXPORT_NAME lua
+    FOLDER "lua")
 
 #================================
 # Lua compiler.

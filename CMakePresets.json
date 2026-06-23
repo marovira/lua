@@ -12,6 +12,7 @@
             "hidden": true,
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
+                "CMAKE_DEBUG_POSTFIX": "d",
                 "LUA_BUILD_COMPILER": "ON",
                 "LUA_BUILD_INTERPRETER": "ON",
                 "LUA_INSTALL_TARGET": "ON"
