@@ -10,13 +10,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Directory variables.
 #================================
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
-set(CMAKE_DIR ${ROOT_DIR}/../cmake)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_DIR})
 
 #================================
 # Packages.
 #================================
-find_package(lua 5.4.7 QUIET)
+find_package(lua 5.4.7 QUIET CONFIG)
 
 if (NOT lua_FOUND)
     include(FetchContent)
@@ -26,7 +24,6 @@ if (NOT lua_FOUND)
         )
 
     FetchContent_MakeAvailable(lua)
-    list(APPEND CMAKE_MODULE_PATH ${lua_SOURCE_DIR}/cmake)
 endif()
 
 source_group("source" FILES ${ROOT_DIR}/main.cpp)

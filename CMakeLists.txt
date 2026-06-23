@@ -52,7 +52,6 @@ if (LUA_INSTALL_TARGET)
 
     install(FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/luaConfig.cmake"
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Findlua.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/luaConfigVersion.cmake"
         DESTINATION lib/cmake/lua
         )
