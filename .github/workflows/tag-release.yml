@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          token: ${{ secrets.UPDATE_LUA_TOKEN }}
 
       - name: Get version from CMakeLists.txt
         id: version
