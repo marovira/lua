@@ -24,7 +24,7 @@
             "displayName": "MSVC",
             "inherits": "default",
             "description": "Default build for MSVC",
-            "generator": "Visual Studio 17 2026"
+            "generator": "Visual Studio 18 2026"
         },
         {
             "name": "linux",
