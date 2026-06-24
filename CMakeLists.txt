@@ -58,7 +58,7 @@ if (LUA_INSTALL_TARGET)
 
     install(FILES
         ${LUA_INSTALL_INCLUDE}
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/lua"
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
         )
 
     if (MSVC)
