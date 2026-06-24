@@ -1,0 +1,6 @@
+# Build folders
+build/
+
+# C++
+.cache/
+compile_commands.json
