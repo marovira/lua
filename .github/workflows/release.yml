@@ -34,7 +34,7 @@ jobs:
         run: |
           cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=install/lua
           cd ./build
-          if [[ "$OSTYPE" == "msys" ]]; then
+          if [[ "$OSTYPE" == "cygwin" ]]; then
             cmake --build . --config $BUILD_TYPE
           else
             make
@@ -49,7 +49,7 @@ jobs:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
         run: |
-          if [[ "$OSTYPE" == "msys" ]]; then
+          if [[ "$OSTYPE" == "cygwin" ]]; then
             cmake --build . --target INSTALL --config $BUILD_TYPE
           else
             make install
@@ -61,7 +61,7 @@ jobs:
         env:
           CONFIG_TYPE: ${{ matrix.config.preset }}
         run: |
-          if [[ "$OSTYPE" == "msys" ]]; then
+          if [[ "$OSTYPE" == "cygwin" ]]; then
             7z a lua-$GITHUB_REF_NAME-$CONFIG_TYPE-x64.zip -r lua
           else
             zip lua-$GITHUB_REF_NAME-$CONFIG_TYPE-x64.zip -r lua

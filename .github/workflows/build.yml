@@ -46,7 +46,7 @@ jobs:
         run: |
           cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$HOME/lua
           cd ./build
-          if [[ "$OSTYPE" == "msys" ]]; then
+          if [[ "$OSTYPE" == "cygwin" ]]; then
             cmake --build . --config $BUILD_TYPE
           else
             make
@@ -60,7 +60,7 @@ jobs:
           CXX: ${{ matrix.config.cxx }}
           BUILD_TYPE: ${{ matrix.build }}
         run: |
-          if [[ "$OSTYPE" == "msys" ]]; then
+          if [[ "$OSTYPE" == "cygwin" ]]; then
             cmake --install . --config $BUILD_TYPE
           else
             cmake --install .
@@ -77,7 +77,7 @@ jobs:
         run: |
           cmake --preset=$CONFIG_TYPE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH=$HOME/lua
           cd ./build
-          if [[ "$OSTYPE" == "msys" ]]; then
+          if [[ "$OSTYPE" == "cygwin" ]]; then
             cmake --build . --config $BUILD_TYPE
           else
             make
