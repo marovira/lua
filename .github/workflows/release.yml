@@ -70,5 +70,6 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v3
         with:
-          draft: true
+          draft: false
           files: "./install/*.zip"
+          body: "See the official [Lua docs](https://www.lua.org/docs.html) for details"
